@@ -34,7 +34,6 @@ moveF = function(st,stateSpace,probMat){
 
 nTimes = 20000
 
-
 #Generates a sequence of observations from this MARKOV CHAIN
 results = matrix(0,nrow=nTimes,ncol=length(stateSpace))
 oldMove = 1 #initial value
@@ -57,7 +56,7 @@ posteriorSample = sample(stateSpace,size=100,replace=TRUE,prob=posterior)
 #If we want to use our MARKOV CHAIN draws
 results[1:10,] #clearly, these aren't independent.  Also they depend on initial value
 
-#What we do have is a TIME SERIES for each state.  
+#What we do have is basically a TIME SERIES for each state.  
 # If we are looking for independent draws, it is necessary they look like WHITE NOISE
 par(mfrow=c(3,1),mar=rep(3,4))
 acf(results[,1],main='State 1')
@@ -68,10 +67,9 @@ acf(results[,3],main='State 3')
 #  1) Throw away first few observations (so the chain "forgets" where it started from)
 resultsBurn = results[-(1:200),] #often called a "burn in"
 #  2) Sub-sample by only keep every kth draw for varying k's
-k = 20
+k = 13
 if(nrow(resultsBurn)%%k != 0){
   print('not a divisor')
-  break
 } else{
   subSamp   = rep(c(rep(FALSE,k-1),TRUE),nrow(resultsBurn)/k)
   results_k = resultsBurn[subSamp,]
