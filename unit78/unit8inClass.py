@@ -75,8 +75,8 @@ sweeps     = 0
 while not converged and sweeps < maxIter:
     for j in xrange(p):
         print j
-        #Get residuals
-        #get smoothed
+        R = fHat.residuals(Y,j)#get residuals
+        fHat.smooth(X_scaled,R,j)#get smoothed        
     converged = fHat.converged(tolerance,verbose=1)    
     fHat.old = fHat.fit.copy()
     sweeps += 1
@@ -89,3 +89,4 @@ for j in xrange(p):
     ax.plot(X[:,j],initialFit[:,j]+GSPC.mean(),'r.')
     ax.plot(X[:,j],fHat.fit[:,j]+GSPC.mean(),'g.')
     ax.set_title(close_px.keys()[j])
+fig.savefig(localDir+'additiveModel.pdf')
